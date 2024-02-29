@@ -9,6 +9,8 @@ dotenv.config({ path: 'Backend/.env' });
 const querystring = require('querystring');
 const request = require('request'); 
 
+const fetch = require('node-fetch');
+
 const CLIENT_ID  = process.env.CLIENT_ID;
 const CLIENT_SECRET  = process.env.CLIENT_SECRET;
 const redirect_uri = 'http://localhost:3000/callback';
@@ -17,6 +19,10 @@ console.log(CLIENT_ID,CLIENT_SECRET)
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+var access_token;
+var refresh_token;
+var expires_in;
 
 function generateRandomString(length) {
     var result = '';
@@ -75,10 +81,11 @@ app.get('/callback', function (req, res) {
 
     request.post(authOptions, function (error, response, body) {
         if (!error && response.statusCode === 200) {
-            var access_token = body.access_token;
-            var refresh_token = body.refresh_token;
+            access_token = body.access_token;
+            refresh_token = body.refresh_token;
+            expires_in = body.expires_in;
             // Redirect or send response as needed
-            res.send('Authentication successful! Access token: ' + access_token);
+            res.send('Authentication successful! Access token: ' + access_token +"<br>"+ expires_in);
         } else {
             // Handle error
             res.status(response.statusCode).send('Error: ' + error);
@@ -93,6 +100,29 @@ app.post("/add", (req, res)=>{
     res.send("WORKED");
     ReadWrite.Write(`${url}`);
 })
+
+//Testing
+
+async function getProfile(accessToken) {
+  const response = await fetch('https://api.spotify.com/v1/me', {
+    headers: {
+      Authorization: 'Bearer ' + accessToken
+    }
+  });
+
+  const data = await response.json();
+  return data;
+}
+
+app.get('/profile', async (req, res) => {
+  console.log(access_token, expires_in,refresh_token)
+  try {
+    const profileData = await getProfile(access_token);
+    res.json(profileData);
+  } catch (error) {
+    res.status(500).send('Error: ' + error.message);
+  }
+});
 
 app.listen(port, ()=>{
     console.log(`Example app listening on port: ${port}`)
