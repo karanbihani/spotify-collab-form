@@ -13,6 +13,7 @@ const fetch = require('node-fetch');
 
 const CLIENT_ID  = process.env.CLIENT_ID;
 const CLIENT_SECRET  = process.env.CLIENT_SECRET;
+const PLAYLIST_ID = process.env.PLAYLIST_ID;
 const redirect_uri = 'http://localhost:3000/callback';
 
 console.log(CLIENT_ID,CLIENT_SECRET)
@@ -24,6 +25,9 @@ var access_token;
 var refresh_token;
 var expires_in;
 
+var delay = 5;
+
+// Utility:
 function generateRandomString(length) {
     var result = '';
     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -34,6 +38,12 @@ function generateRandomString(length) {
     return result;
 }
 
+function convertToSpotifyURI(url) {
+  const trackID = url.split('/').pop().split('?')[0];
+  return `spotify:track:${trackID}`;
+}
+
+// Routes:
 app.get("/" , (req, res)=>{
   res.send("Hi")
 })
@@ -41,7 +51,7 @@ app.get("/" , (req, res)=>{
 app.get('/login', function(req, res) {
 
   var state = generateRandomString(16);
-  var scope = 'user-read-private user-read-email playlist-modify-private playlist-modify-public playlist-read-private playlist-read-collaborative';
+  var scope = 'user-read-private user-read-email playlist-modify-public playlist-modify-private playlist-read-private playlist-read-collaborative';
 
   console.log("login")
 
@@ -113,7 +123,7 @@ app.get('/callback', function (req, res) {
             grant_type: 'authorization_code'
         },
         headers: {
-            'content-type': 'application/x-www-form-urlencoded',
+            'content-type': ' ',
             'Authorization': 'Basic ' + (new Buffer.from(CLIENT_ID + ':' + CLIENT_SECRET).toString('base64'))
         },
         json: true
@@ -126,26 +136,74 @@ app.get('/callback', function (req, res) {
             expires_in = body.expires_in;
             
             res.send('Authentication successful! Access token: ' + access_token +"<br>"+ expires_in +"<br>"+refresh_token);
+            console.log("Access Token:\n", access_token)
+            startAddingSpotifySongs(access_token);
             accessTokenRefresher();
         } else {
             res.status(response.statusCode).send('Error: ' + error);
         }
     });
+
 }
 });
 
-
-app.post("/add", (req, res)=>{
-    console.log(req.body)
-    var {url} = req.body;
-    res.send("WORKED");
-    ReadWrite.Write(`${url}`);
-})
-
 // Adding songs to playlist
 
+app.post("/add", (req, res)=>{
+  console.log(req.body)
+  var {url} = req.body;
+  var uri = convertToSpotifyURI(url);
+  res.send("WORKED");
+  ReadWrite.Write(`${uri}`);
+})
 
+const startAddingSpotifySongs = (access_token)=>{  
+  addSpotifySongs =  setInterval(()=>{
+  songList = ReadWrite.Read();
 
+  if (songList[0] ===""){
+    songList.splice(0,1);
+    console.log(songList);
+  }
+  
+  if(songList[songList.length-1]===""){
+    console.log("last el ''");
+    songList.splice(songList.length-1,1);
+    console.log(songList);
+  }
+
+  if (songList.length === 0) {
+    console.log("is 0\n",songList[0], songList.length);
+  }
+  else{
+    var authOptions = {
+      url: `https://api.spotify.com/v1/playlists/${PLAYLIST_ID}/tracks`,
+      body: {
+          uris: songList
+      },
+      headers: {
+          Authorization: 'Bearer ' + access_token
+      },
+      json: true
+    };
+
+    console.log(authOptions.headers, authOptions.body.uris)
+    console.log(songList)
+  
+    console.log("not 0")
+    request.post(authOptions, function (error, response, body) {
+      if (!error && response.statusCode === 200) {
+          var snapshot_id = body.snapshot_id; 
+          
+          console.log("Added!!\n", snapshot_id)
+      } else {
+        console.error('Error: ' + error);
+      }
+    });    
+  }
+  
+  }, 1000*delay)
+}
 //Testing
 
 async function getProfile(accessToken) {
