@@ -55,6 +55,46 @@ app.get('/login', function(req, res) {
     }));
 });
 
+const getRefreshToken =  () => {
+  var refreshTokenRequest = {
+    url: 'https://accounts.spotify.com/api/token',
+    form: {
+      grant_type: 'refresh_token',
+      refresh_token: refresh_token,
+    },
+    headers: {
+        'content-type': 'application/x-www-form-urlencoded',
+        'Authorization': 'Basic ' + (new Buffer.from(CLIENT_ID + ':' + CLIENT_SECRET).toString('base64'))
+    },
+    json: true
+  };
+  return(refreshTokenRequest)
+}
+
+const accessTokenRefresher = ()=>{
+  a = setInterval(()=>{
+    expires_in -= 1;
+    console.log(expires_in);
+
+    if (expires_in<=0){
+      console.log("Timer Reached 0");
+
+      console.log("Sending post request");
+      request.post(getRefreshToken(), function(error, response, body) {
+        if (!error && response.statusCode === 200) {
+          access_token = body.access_token
+          expires_in = body.expires_in
+          if(body.refresh_token){
+            refresh_token = body.refresh_token;
+          }
+          console.log(access_token, refresh_token);
+        }
+      });
+    }
+
+  }, 1000)
+}
+
 app.get('/callback', function (req, res) {
   var code = req.query.code || null;
   var state = req.query.state || null;
@@ -64,7 +104,7 @@ app.get('/callback', function (req, res) {
         querystring.stringify({
             error: 'state_mismatch'
         }));
-} else {
+    } else {
     var authOptions = {
         url: 'https://accounts.spotify.com/api/token',
         form: {
@@ -84,15 +124,16 @@ app.get('/callback', function (req, res) {
             access_token = body.access_token;
             refresh_token = body.refresh_token;
             expires_in = body.expires_in;
-            // Redirect or send response as needed
-            res.send('Authentication successful! Access token: ' + access_token +"<br>"+ expires_in);
+            
+            res.send('Authentication successful! Access token: ' + access_token +"<br>"+ expires_in +"<br>"+refresh_token);
+            accessTokenRefresher();
         } else {
-            // Handle error
             res.status(response.statusCode).send('Error: ' + error);
         }
     });
 }
 });
+
 
 app.post("/add", (req, res)=>{
     console.log(req.body)
@@ -100,6 +141,10 @@ app.post("/add", (req, res)=>{
     res.send("WORKED");
     ReadWrite.Write(`${url}`);
 })
+
+// Adding songs to playlist
+
+
 
 //Testing
 
