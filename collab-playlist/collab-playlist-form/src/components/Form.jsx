@@ -33,7 +33,7 @@ function Form(){
             event.target.elements.url.value = '';
         
             try {
-                const response = await fetch('http://localhost:3000/add', {
+                const response = await fetch('https://spotify-collab-backend.onrender.com/add', {
                 method: 'POST',
                 headers: {
                 'Content-Type': 'application/json',
