@@ -4,6 +4,63 @@
   min-width: 0;
 }
 
+input::placeholder{
+  text-align: center
+}
+
+input{
+  border-radius: 1rem;
+  min-width: 6rem;
+  max-width: 12rem;
+}
+
+.app-container{
+  /* background-image: url("./assets/final2.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom; */
+  background-color: black;
+}
+
+.l1{
+  background-image: url("./assets/women.svg");
+  background-repeat: no-repeat;
+  background-size: 60%;
+  background-position: bottom;
+
+}
+
+.form{
+  margin-bottom: 8rem;
+}
+
+.nav{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+@media only screen and (max-width: 800px) {
+  .l1{
+    background-size: 150vw;
+  }
+
+  .nav{
+    gap:5rem;
+  }
+
+
+  /* .l2{
+    max-width: 40%;
+  }
+
+  .l3{ 
+    max-width: 40%;
+    border: 1px solid red; 
+  } */
+}
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

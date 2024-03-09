@@ -2,62 +2,22 @@ import { GoogleLogin } from '@react-oauth/google';
 import React, { useState, useEffect } from 'react';
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import { useNavigate, useLocation } from 'react-router-dom';
+import WT from "../assets/wt.svg";
+import VIT from "../assets/vit.svg";
+
+// import BackgroundSVG from "./assets/bg.svg";
 
 import axios from 'axios';
 
-
 function LoginGoogle(){
-
-    // const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-    // const CLIENT_SECRET = import.meta.env.VITE_GOOGLE_CLIENT_SECRET;
-
-    // function handleCallbackResponse(response){
-    //     console.log("Encoded JWT ID Token:" + response.credential);
-    // }
-
-    // useEffect(()=>{
-    //     /* Global Google */ // This prevents linter from sayign google doesnnt exist
-
-    //     google.accounts.id.initalize({
-    //         client_id: CLIENT_ID,
-    //         callback:   handleCallbackResponse
-    //     })
-
-    //     google.accounts.id.renderButton(
-    //         document.querySelector("#signInDiv"),
-    //         {theme:"outline", size:"large"}
-    //     )
-    // },[])
-
-    // return(<div className="google-login">
-    //     <div id="signInDiv"></div>
-    // </div>)
-
-    // const responseMessage = (response) => {
-    //     console.log(response);
-    // };
-    // const errorMessage = (error) => {
-    //     console.log(error);
-    // };
-    // return (
-    //     <div>
-    //         <h2>React Google Login</h2>
-    //         <br />
-    //         <br />
-    //         <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
-    //     </div>
-    // )
 
     const [ user, setUser ] = useState([]);
     const [ profile, setProfile ] = useState([]);
     const [ redirect, setRedirect ] = useState([]);
 
-    const navigate = useNavigate();
-    
-    // const [data, setData] = useState([]);
+    // setProfile(null)
 
-    // useEffect(() => {
-    // );
+    const navigate = useNavigate();
 
     const login = useGoogleLogin({
         onSuccess: (codeResponse) => setUser(codeResponse),
@@ -94,22 +54,22 @@ function LoginGoogle(){
     };
 
     return (
-        <div>
-            <h2>React Google Login</h2>
-            <br />
-            <br />
-            {profile ? (
+
+        <div style={{width:"100%", height:"100svh", color:"white", padding:"2rem", display:"flex", flexDirection:"column", alignItems:"center", gap:"4rem"}}>
+            <div className='nav'>
+                <img className="l2" src={VIT} style={{maxHeight:"4rem"}}></img> 
+                
+                {/* <button onClick={logOut} style={{backgroundColor:"#ec350e", color:"white", borderRadius:"16px", padding:"12px"}}>Log out</button> */}
+                <img className="l3  " src={WT} style={{maxHeight:"4rem"}}></img>
+
+            </div>
+            <h1 style={{fontSize:"2.25rem", fontFamily:"sans-serif", textAlign:"center"}}>Login in To Add Songs</h1>
+            {profile===null ? (
                 <div>
-                    <img src={profile.picture} alt="user image" />
-                    <h3>User Logged in</h3>
-                    <p>Name: {profile.name}</p>
-                    <p>Email Address: {profile.email}</p>
-                    <br />
-                    <br />
                     <button onClick={logOut}>Log out</button>
                 </div>
             ) : (
-                <button onClick={login}>Sign in with Google 🚀 </button>
+                <button onClick={login} style={{ backgroundColor:"#ec350e", color:"white", borderRadius:"16px", padding:"1rem 2rem", }}>Sign in with Google 🚀 </button>
             )}
         </div>
     );
