@@ -19,6 +19,12 @@ function LoginGoogle(){
         onError: (error) => console.log('Login Failed:', error)
     });
 
+    useEffect(() => {
+        if (user) {
+            navigate('/add');
+        }
+    }, []);
+
     useEffect(
         () => {
             if (user) {
