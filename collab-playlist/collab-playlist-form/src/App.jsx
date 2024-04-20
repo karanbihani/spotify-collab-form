@@ -16,8 +16,8 @@ function App() {
         <Routes>
           <Route path='/' element={<LoginGoogle />} />
           <Route path="/callback" element={<Callback />} />
-          <Route path="/add" element={<Form />} />
-          <Route path="/new_add" element={<SpotifyInput />} />
+          <Route path="/old/add" element={<Form />} />
+          <Route path="/add" element={<SpotifyInput />} />
         </Routes>
       </Router>
       </div>

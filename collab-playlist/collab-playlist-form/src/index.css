@@ -1,0 +1,96 @@
+*{
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+}
+
+body{
+    padding: 2rem 4rem;
+    background-color: black;
+}
+  
+input::placeholder{
+    text-align: center
+}
+
+.search-input {
+    
+    border-radius: 1rem;
+    min-width: 6rem;
+    width: 100%;
+    padding: 8px 16px;
+    text-align: center;
+    color: rgb(182, 179, 179);
+    background-color: rgb(77, 77, 77);
+    border: none;
+    border-radius: 9999px;
+    outline: none;
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
+}
+
+.search-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: #1e1e1e;
+    transition: background-color 0.3s ease;
+}
+
+.search-item:hover {
+    background-color: #292929;
+}
+
+.search-item-img {
+    width: 64px;
+    height: 64px;
+    margin-right: 16px;
+    border-radius: 8px;
+}
+
+.search-item-button {
+    text-align: left;
+    background: none;
+    border: none;
+    color: inherit;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+}
+
+.track-name {
+    color: #fff;
+    font-size: 1rem;
+    margin-bottom: 4px;
+}
+
+.artist-name {
+    color: #aaaaaa;
+    font-size: 0.875rem;
+}
+
+.searchPage{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem
+}
+
+.search-instructions {
+    color: #fff;
+    text-align: center;
+    padding: 2rem;
+}
+
+.add-status {
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+    font-size: 1rem;
+    margin-top: 1rem;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
