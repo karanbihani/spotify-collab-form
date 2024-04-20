@@ -63,7 +63,7 @@ function Callback() {
     }, [navigate, location.search]);
 
     const handleClick = () => {
-        navigate('/add', { search: '?query=react&page=1' });
+        navigate('/add');
     };
 
     return (

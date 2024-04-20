@@ -5,6 +5,7 @@ import Form from './components/Form';
 import Login from './components/Login';
 import Callback from './components/Callback';
 import LoginGoogle from './components/LoginGoogle';
+import SpotifyInput from './components/SpotifyInput';
 import React from "react";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
           <Route path='/' element={<LoginGoogle />} />
           <Route path="/callback" element={<Callback />} />
           <Route path="/add" element={<Form />} />
+          <Route path="/new_add" element={<SpotifyInput />} />
         </Routes>
       </Router>
       </div>
