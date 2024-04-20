@@ -1,11 +1,6 @@
-import { GoogleLogin } from '@react-oauth/google';
 import React, { useState, useEffect } from 'react';
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import { useNavigate, useLocation } from 'react-router-dom';
-import WT from "../assets/wt.svg";
-import VIT from "../assets/vit.svg";
-
-// import BackgroundSVG from "./assets/bg.svg";
 
 import axios from 'axios';
 
@@ -54,22 +49,12 @@ function LoginGoogle(){
     };
 
     return (
-
-        <div style={{width:"100%", height:"100svh", color:"white", padding:"2rem", display:"flex", flexDirection:"column", alignItems:"center", gap:"4rem"}}>
-            <div className='nav'>
-                <img className="l2" src={VIT} style={{maxHeight:"4rem"}}></img> 
-                
-                {/* <button onClick={logOut} style={{backgroundColor:"#ec350e", color:"white", borderRadius:"16px", padding:"12px"}}>Log out</button> */}
-                <img className="l3  " src={WT} style={{maxHeight:"4rem"}}></img>
-
-            </div>
-            <h1 style={{fontSize:"2.25rem", fontFamily:"sans-serif", textAlign:"center"}}>Login in To Add Songs</h1>
-            {profile===null ? (
-                <div>
-                    <button onClick={logOut}>Log out</button>
-                </div>
+        <div className="login-container">
+            <h1 className="title">Login to Add Songs</h1>
+            {profile ? (
+                <button className="logout-button" onClick={logOut}>Log out</button>
             ) : (
-                <button onClick={login} style={{ backgroundColor:"#ec350e", color:"white", borderRadius:"16px", padding:"1rem 2rem", }}>Sign in with Google 🚀 </button>
+                <button className="login-button" onClick={login}>Sign in with Google 🚀</button>
             )}
         </div>
     );
