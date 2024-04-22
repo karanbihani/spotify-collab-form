@@ -7,6 +7,10 @@
 body{
     padding: 2rem 4rem;
     background-color: black;
+    
+    @media (max-width: 768px){
+        padding: 1rem 2rem;
+    }
 }
   
 .login-container {
@@ -23,7 +27,7 @@ body{
     background: linear-gradient(135deg, #1e4157f0, #159957f0); /* Example gradient */
 }
 
-.login-button {
+.button {
     background-color: #ec350e;
     color: white;
     border: none;
@@ -125,7 +129,11 @@ input::placeholder{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 1rem
+    gap: 4rem;
+
+    @media (max-width: 768px){
+        gap: 2rem;
+    }
 }
 
 .search-instructions {
@@ -140,6 +148,40 @@ input::placeholder{
     padding: 1rem;
     font-size: 1rem;
     margin-top: 1rem;
+}
+
+nav {
+    background-color: #1DB954 ; 
+    color: #ECF0F1; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    margin: -2rem -4rem;
+
+    @media (max-width: 768px){
+        margin: -1rem -2rem;
+    }
+}
+
+nav div {
+    display: flex;
+    align-items: center;
+}
+
+nav a {
+    color: inherit; /* Inherits the color from the nav style */
+    text-decoration: none;
+    font-size: 20px;
+    margin-left: 10px;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+nav img {
+    height: 50px;
 }
 
 @tailwind base;

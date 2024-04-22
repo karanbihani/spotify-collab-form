@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { debounce } from 'lodash';
 import { useNavigate } from 'react-router-dom';  
+import Navbar from './Navbar';
 
 function SpotifyInput() {
     const [searchTerm, setSearchTerm] = useState('');
@@ -101,6 +102,7 @@ function SpotifyInput() {
 
     return (
         <div className='searchPage'>
+            <Navbar />
             <input
                 type="text"
                 value={searchTerm}

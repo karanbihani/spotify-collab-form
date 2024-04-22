@@ -56,13 +56,13 @@ function LoginGoogle() {
             {profile && profile !== "null" ? (
                 <>
                 <h1 className="title">LogOut</h1>
-                <button className="logout-button" onClick={logOut}>Log out</button>
-                <button className="add-button" onClick={() => navigate('/add')}>Go to Add Page</button>
+                <button className="button" onClick={logOut}>Log out</button>
+                <button className="button" onClick={() => navigate('/add')}>Go to Add Page</button>
                 </>
             ) : (
                 <>
                 <h1 className="title">Login to Add Songs</h1>
-                <button className="login-button" onClick={login}>Sign in with Google 🚀</button>
+                <button className="button" onClick={login}>Sign in with Google 🚀</button>
                 </>
             )}
         </div>
