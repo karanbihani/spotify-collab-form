@@ -57,6 +57,7 @@ function LoginGoogle() {
                 <>
                 <h1 className="title">LogOut</h1>
                 <button className="logout-button" onClick={logOut}>Log out</button>
+                <button className="add-button" onClick={() => navigate('/add')}>Go to Add Page</button>
                 </>
             ) : (
                 <>
